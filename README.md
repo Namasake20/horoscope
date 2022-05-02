@@ -1,12 +1,16 @@
 # horoscope
 A daily horoscope android app that provides prediction for all the twelve zodiac signs;
 Aries, Taurus, Gemini, Cancer, Leo, Virgo, Libra, Scorpio, Sagittarius, Capricorn, Aquarius and Pisces
-Utilises an rest api that provides daily prediction and tomorrows based on a given zodiac sign.
+<br />
+Utilises a rest api that provides daily prediction and tomorrows based on a given zodiac sign.
 
 Technology stack:
 ->Kotlin
+<br />
 ->Courotines
+<br />
 ->ViewBinding
+<br />
 ->Retrofit
 
 Get it from google play:https://play.google.com/store/apps/details?id=com.horoscopes.horoscope
