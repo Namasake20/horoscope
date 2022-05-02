@@ -5,6 +5,7 @@ Aries, Taurus, Gemini, Cancer, Leo, Virgo, Libra, Scorpio, Sagittarius, Capricor
 Utilises a rest api that provides daily prediction and tomorrows based on a given zodiac sign.
 
 Technology stack:
+<br />
 ->Kotlin
 <br />
 ->Courotines
