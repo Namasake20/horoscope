@@ -8,7 +8,7 @@ Technology stack:
 <br />
 ->Kotlin
 <br />
-->Courotines
+->Coroutines
 <br />
 ->ViewBinding
 <br />
