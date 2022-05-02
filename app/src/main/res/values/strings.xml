@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">horoscope</string>
+    <string name="description">description</string>
+    <string name="hello_aquarius">Hello,Aquarius</string>
+    <string name="aquarius_leo_cancer">aquarius,leo,cancer...</string>
+    <string name="today">Today</string>
+    <string name="tomorrow">Tomorrow</string>
+    <string name="lucky_number">Lucky Number:</string>
+    <string name="lucky_time">Lucky time:</string>
+    <string name="best_match">Best Match:</string>
+    <string name="born">Born:</string>
+</resources>
