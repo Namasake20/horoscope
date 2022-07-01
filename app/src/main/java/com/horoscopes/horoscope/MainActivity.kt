@@ -1,177 +1,94 @@
 package com.horoscopes.horoscope
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import android.widget.EditText
-import android.widget.ProgressBar
-import android.widget.TextView
-import android.widget.Toast
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.horoscopes.horoscope.databinding.ActivityMainBinding
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.launch
-import retrofit2.HttpException
-import java.io.IOException
+import com.horoscopes.horoscope.main.MainViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 
 const val TAG = "MainActivity"
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private  lateinit var binding: ActivityMainBinding
+    private val viewModel: MainViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.icSearch.setOnClickListener {
+            viewModel.predict(binding.edtSearch.text.toString(),"today")
+            appendTitles()
+        }
+        binding.btnToday.setOnClickListener {
+            viewModel.predict(binding.edtSearch.text.toString(),"today")
+            appendTitles()
+        }
+        binding.btnTomorrow.setOnClickListener {
+            viewModel.predict(binding.edtSearch.text.toString(),"tomorrow")
+            appendTitles()
+        }
+        
         lifecycleScope.launchWhenCreated {
-            binding.progressBar.isVisible = true
-            val response = try {
-                RetrofitInstance.api.getForecast("aquarius","today")
-
-            }
-            catch (e: IOException){
-                Log.e(TAG, "something wrong" )
-                binding.progressBar.isVisible = false
-                return@launchWhenCreated
-
-            }
-            catch (e: HttpException){
-                Log.e(TAG, "something went wrong" )
-                binding.progressBar.isVisible = false
-                return@launchWhenCreated
-            }
-            if (response.isSuccessful && response.body() != null){
-
-                binding.tvDescription.text = response.body()!!.description
-                binding.tvMood.text = response.body()!!.mood
-                binding.tvBestMatch.text = response.body()!!.compatibility
-                binding.tvLuckyNumber.text = response.body()!!.lucky_number
-                binding.tvLuckyTime.text = response.body()!!.lucky_time
-                binding.tvRange.text = response.body()!!.date_range
-                binding.tvSign.text = "hello aquarius,"
-            }
-            else{
-                Log.e(TAG, "Response not successful", )
-            }
-            binding.progressBar.isVisible = false
-
-            binding.icSearch.setOnClickListener(View.OnClickListener {
-                binding.btnToday.isClickable = false
-                lifecycleScope.launchWhenStarted{
-                    binding.progressBar.isVisible = true
-                    val response1 = try {
-                        RetrofitInstance.api.getForecast(binding.edtSearch.text.toString(),"today")
-
+            viewModel.predict("aquarius","today")
+            viewModel.prediction.collect { event ->
+                when (event) {
+                    is MainViewModel.PredictionEvent.Success -> {
+                        binding.progressBar.isVisible = false
+                        binding.tvDescription.text = event.resultText!!.description
+                        binding.tvMood.text = event.resultText.mood
+                        binding.tvLuckyTime.text = event.resultText.lucky_time
+                        binding.tvLuckyNumber.text = event.resultText.lucky_number
+                        binding.tvRange.text = event.resultText.date_range
+                        binding.tvBestMatch.text = event.resultText.compatibility
+                        binding.tvSign.text = "Hello, Aquarius!"
                     }
-                    catch (e: IOException){
+                    is MainViewModel.PredictionEvent.Failure ->{
+                        binding.progressBar.isVisible = false
                         Log.e(TAG, "something wrong" )
-                        binding.progressBar.isVisible = false
-                        return@launchWhenStarted
                     }
-                    catch (e: HttpException){
-                        Log.e(TAG, "something went wrong" )
-                        binding.progressBar.isVisible = false
-                        return@launchWhenStarted
-
+                    is MainViewModel.PredictionEvent.Loading ->{
+                        binding.progressBar.isVisible = true
                     }
-                    if (response1.isSuccessful && response1.body() != null){
-
-                        binding.tvDescription.text = response1.body()!!.description
-                        binding.tvMood.text = response1.body()!!.mood
-                        binding.tvBestMatch.text = response1.body()!!.compatibility
-                        binding.tvLuckyNumber.text = response1.body()!!.lucky_number
-                        binding.tvLuckyTime.text = response1.body()!!.lucky_time
-                        binding.tvRange.text = response1.body()!!.date_range
-                        binding.tvSign.text = "hello "+binding.edtSearch.text.toString()+","
-                    }
-                    else{
-                        Log.e(TAG, "Response not successful", )
-                    }
-                    binding.progressBar.isVisible = false
-
+                    is MainViewModel.PredictionEvent.Empty -> Unit
                 }
-
-            })
-            binding.btnTomorrow.setOnClickListener(View.OnClickListener {
-                binding.btnToday.isClickable = true
-                lifecycleScope.launchWhenStarted{
-                    binding.progressBar.isVisible = true
-                    val response1 = try {
-                        RetrofitInstance.api.getForecast(binding.edtSearch.text.toString(),"tomorrow")
-
-                    }
-                    catch (e: IOException){
-                        Log.e(TAG, "something wrong" )
-                        binding.progressBar.isVisible = false
-                        return@launchWhenStarted
-                    }
-                    catch (e: HttpException){
-                        Log.e(TAG, "something went wrong" )
-                        binding.progressBar.isVisible = false
-                        return@launchWhenStarted
-
-                    }
-                    if (response1.isSuccessful && response1.body() != null){
-
-                        binding.tvDescription.text = response1.body()!!.description
-                        binding.tvMood.text = response1.body()!!.mood
-                        binding.tvBestMatch.text = response1.body()!!.compatibility
-                        binding.tvLuckyNumber.text = response1.body()!!.lucky_number
-                        binding.tvLuckyTime.text = response1.body()!!.lucky_time
-                        binding.tvRange.text = response1.body()!!.date_range
-                        binding.tvSign.text = "hello "+binding.edtSearch.text.toString()+","
-                    }
-                    else{
-                        Log.e(TAG, "Response not successful", )
-                    }
-                    binding.progressBar.isVisible = false
-
-                }
-
-
-            })
-            binding.btnToday.setOnClickListener(View.OnClickListener {
-                lifecycleScope.launchWhenStarted{
-                    binding.progressBar.isVisible = true
-                    val response1 = try {
-                        RetrofitInstance.api.getForecast(binding.edtSearch.text.toString(),"today")
-
-                    }
-                    catch (e: IOException){
-                        Log.e(TAG, "something wrong" )
-                        binding.progressBar.isVisible = false
-                        return@launchWhenStarted
-                    }
-                    catch (e: HttpException){
-                        Log.e(TAG, "something went wrong" )
-                        binding.progressBar.isVisible = false
-                        return@launchWhenStarted
-
-                    }
-                    if (response1.isSuccessful && response1.body() != null){
-
-                        binding.tvDescription.text = response1.body()!!.description
-                        binding.tvMood.text = response1.body()!!.mood
-                        binding.tvBestMatch.text = response1.body()!!.compatibility
-                        binding.tvLuckyNumber.text = response1.body()!!.lucky_number
-                        binding.tvLuckyTime.text = response1.body()!!.lucky_time
-                        binding.tvRange.text = response1.body()!!.date_range
-                        binding.tvSign.text = "hello "+binding.edtSearch.text.toString()+","
-                    }
-                    else{
-                        Log.e(TAG, "Response not successful", )
-                    }
-                    binding.progressBar.isVisible = false
-
-                }
-
-            })
+            }
 
         }
+    }
 
+    private fun appendTitles() {
+        lifecycleScope.launchWhenStarted {
+            viewModel.prediction.collect { event ->
+                when (event) {
+                    is MainViewModel.PredictionEvent.Success -> {
+                        binding.progressBar.isVisible = false
+                        binding.tvDescription.text = event.resultText!!.description
+                        binding.tvMood.text = event.resultText.mood
+                        binding.tvLuckyTime.text = event.resultText.lucky_time
+                        binding.tvLuckyNumber.text = event.resultText.lucky_number
+                        binding.tvRange.text = event.resultText.date_range
+                        binding.tvBestMatch.text = event.resultText.compatibility
+                        binding.tvSign.text = "Hello, "+binding.edtSearch.text.toString()+"!"
+                    }
+                    is MainViewModel.PredictionEvent.Failure ->{
+                        binding.progressBar.isVisible = false
+                        Log.e(TAG, "something wrong" )
+                    }
+                    is MainViewModel.PredictionEvent.Loading ->{
+                        binding.progressBar.isVisible = true
+                    }
+                    is MainViewModel.PredictionEvent.Empty -> Unit
+                }
+            }
+        }
     }
 
 }
