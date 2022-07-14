@@ -14,6 +14,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         android:visibility="gone"
+        style="@style/progressBlue"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -46,7 +47,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         app:cardElevation="15dp"
-        app:cardCornerRadius="50dp"
+        app:cardCornerRadius="25dp"
         android:layout_marginTop="40dp"
         android:ems="10"
         android:layout_marginStart="20dp"

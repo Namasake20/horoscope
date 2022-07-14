@@ -4,17 +4,20 @@ Aries, Taurus, Gemini, Cancer, Leo, Virgo, Libra, Scorpio, Sagittarius, Capricor
 <br />
 Utilises a rest api that provides daily prediction and tomorrows based on a given zodiac sign.
 
-Technology stack:
-<br />
-->Kotlin
-<br />
-->Coroutines
-<br />
-->ViewBinding
-<br />
-->Retrofit
+## Technology Used
 
+* Kotlin
+* Coroutines
+* Jetpack -Lifecycle,viewModel
+* Retrofit
+* Flow
+* Dagger Hilt
+
+## Architecture
+MVVM - Model View View Model
+
+##Download
 Get it from google play:https://play.google.com/store/apps/details?id=com.horoscopes.horoscope
-
+##Screenshots
 ![alt text](https://play-lh.googleusercontent.com/rEgYa0JaWXIkBtS_zeGpyQEhiDdMzPhaLPaucZrM5YAUmskfOQcklxLE57yjBiY_0E8=w1600-h768-rw)
 ![alt text](https://play-lh.googleusercontent.com/Msy-crFEo_1m1l1K1Cb2l-9oRYraMWwSm7KaBOS-Fb5UAUN8YKfYPA_V0N303FZ4obZL=w1600-h768-rw)

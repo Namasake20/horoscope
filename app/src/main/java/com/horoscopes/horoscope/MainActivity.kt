@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
                         binding.tvLuckyNumber.text = event.resultText.lucky_number
                         binding.tvRange.text = event.resultText.date_range
                         binding.tvBestMatch.text = event.resultText.compatibility
-                        binding.tvSign.text = "Hello, Aquarius!"
+                        binding.tvSign.text = "Hey, aquarius!"
                     }
                     is MainViewModel.PredictionEvent.Failure ->{
                         binding.progressBar.isVisible = false
@@ -76,7 +76,7 @@ class MainActivity : AppCompatActivity() {
                         binding.tvLuckyNumber.text = event.resultText.lucky_number
                         binding.tvRange.text = event.resultText.date_range
                         binding.tvBestMatch.text = event.resultText.compatibility
-                        binding.tvSign.text = "Hello, "+binding.edtSearch.text.toString()+"!"
+                        binding.tvSign.text = "Hey, "+binding.edtSearch.text.toString()+"!"
                     }
                     is MainViewModel.PredictionEvent.Failure ->{
                         binding.progressBar.isVisible = false
