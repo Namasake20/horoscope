@@ -14,7 +14,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         android:visibility="gone"
-        style="@style/progressBlue"
+        android:theme="@style/progressBlue"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -64,6 +64,7 @@
             android:padding="12dp"
             android:hint="@string/aquarius_leo_cancer"
             android:inputType="text"
+            android:imeOptions="actionSearch"
             android:textColor="@color/black"
             android:textStyle="normal"
             android:layout_marginStart="10dp"

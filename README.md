@@ -10,7 +10,7 @@ Utilises a rest api that provides daily prediction and tomorrows based on a give
 * Coroutines
 * Jetpack -Lifecycle,viewModel
 * Retrofit
-* Flow
+*Flow
 * Dagger Hilt
 
 ## Architecture

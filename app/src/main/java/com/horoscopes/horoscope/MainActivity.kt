@@ -1,7 +1,10 @@
 package com.horoscopes.horoscope
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -27,6 +30,15 @@ class MainActivity : AppCompatActivity() {
             viewModel.predict(binding.edtSearch.text.toString(),"today")
             appendTitles()
         }
+
+        binding.edtSearch.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH){
+                viewModel.predict(binding.edtSearch.text.toString(),"today")
+                appendTitles()
+            }
+            true
+        }
+
         binding.btnToday.setOnClickListener {
             viewModel.predict(binding.edtSearch.text.toString(),"today")
             appendTitles()
@@ -48,7 +60,7 @@ class MainActivity : AppCompatActivity() {
                         binding.tvLuckyNumber.text = event.resultText.lucky_number
                         binding.tvRange.text = event.resultText.date_range
                         binding.tvBestMatch.text = event.resultText.compatibility
-                        binding.tvSign.text = "Hey, aquarius!"
+                        binding.tvSign.text = "Hey, aquarius !"
                     }
                     is MainViewModel.PredictionEvent.Failure ->{
                         binding.progressBar.isVisible = false
@@ -65,6 +77,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun appendTitles() {
+        binding.edtSearch.clearFocus()
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+        imm?.hideSoftInputFromWindow(binding.edtSearch.windowToken,0)
         lifecycleScope.launchWhenStarted {
             viewModel.prediction.collect { event ->
                 when (event) {
@@ -76,7 +91,7 @@ class MainActivity : AppCompatActivity() {
                         binding.tvLuckyNumber.text = event.resultText.lucky_number
                         binding.tvRange.text = event.resultText.date_range
                         binding.tvBestMatch.text = event.resultText.compatibility
-                        binding.tvSign.text = "Hey, "+binding.edtSearch.text.toString()+"!"
+                        binding.tvSign.text = "Hey, "+binding.edtSearch.text.toString()+" !"
                     }
                     is MainViewModel.PredictionEvent.Failure ->{
                         binding.progressBar.isVisible = false
