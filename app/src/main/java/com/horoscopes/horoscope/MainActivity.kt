@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.horoscopes.horoscope.databinding.ActivityMainBinding
-import com.horoscopes.horoscope.main.MainViewModel
+import com.horoscopes.horoscope.feature_horoscope.presentation.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
@@ -95,7 +95,7 @@ class MainActivity : AppCompatActivity() {
                     }
                     is MainViewModel.PredictionEvent.Failure ->{
                         binding.progressBar.isVisible = false
-                        Log.e(TAG, "something wrong" )
+                        Log.e(TAG, event.errorText )
                     }
                     is MainViewModel.PredictionEvent.Loading ->{
                         binding.progressBar.isVisible = true

@@ -9,8 +9,8 @@
     <color name="white">#FFFFFFFF</color>
     <color name="dark">#292D36</color>
     <color name="dark_brown">#42413D</color>
-    <color name="retweet">#00ba7c</color>
-    <color name="like">#f91880</color>
+    <color name="retweet">#1DA1F2</color>
+    <color name="like">#1DA1F2</color>
 
 
 </resources>
