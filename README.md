@@ -12,6 +12,7 @@ Utilises a rest api that provides daily prediction and tomorrows based on a give
 * Retrofit
 * Flow
 * Dagger Hilt
+* Room
 
 ## Architecture
 MVVM - Model View View Model
