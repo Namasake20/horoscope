@@ -1,4 +1,4 @@
-package com.horoscopes.horoscope.data.models
+package com.horoscopes.horoscope.feature_horoscope.domain.model
 
 data class Forecast(
     val color: String,

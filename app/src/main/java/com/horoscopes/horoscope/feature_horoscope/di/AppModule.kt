@@ -1,9 +1,14 @@
-package com.horoscopes.horoscope.di
+package com.horoscopes.horoscope.feature_horoscope.di
 
-import com.horoscopes.horoscope.data.HoroApi
-import com.horoscopes.horoscope.data.HoroApi.Companion.BASE_URL
-import com.horoscopes.horoscope.main.DefaultMainRepository
-import com.horoscopes.horoscope.main.MainRepository
+import android.app.Application
+import androidx.room.Room
+import com.horoscopes.horoscope.feature_horoscope.data.local.ForecastDatabase
+import com.horoscopes.horoscope.feature_horoscope.data.remote.HoroApi
+import com.horoscopes.horoscope.feature_horoscope.data.remote.HoroApi.Companion.BASE_URL
+import com.horoscopes.horoscope.feature_horoscope.data.repository.MainRepositoryImpl
+import com.horoscopes.horoscope.feature_horoscope.domain.model.Forecast
+import com.horoscopes.horoscope.feature_horoscope.domain.repository.MainRepository
+import com.horoscopes.horoscope.feature_horoscope.domain.use_case.GetPrediction
 import com.horoscopes.horoscope.util.DispatcherProvider
 import dagger.Module
 import dagger.Provides
@@ -29,7 +34,7 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideMainRepository(api: HoroApi): MainRepository = DefaultMainRepository(api)
+    fun provideMainRepository(api: HoroApi,db:ForecastDatabase): MainRepository = MainRepositoryImpl(api,db.dao())
 
     @Singleton
     @Provides
@@ -42,5 +47,16 @@ object AppModule {
             get() = Dispatchers.Default
         override val unconfined: CoroutineDispatcher
             get() = Dispatchers.Unconfined
+    }
+
+    @Singleton
+    @Provides
+    fun provideDatabase(application: Application):ForecastDatabase =
+        Room.databaseBuilder(application,ForecastDatabase::class.java,"forecast_db").build()
+
+    @Singleton
+    @Provides
+    fun provideGetPredictionUseCase(repository: MainRepository):GetPrediction{
+        return GetPrediction(repository)
     }
 }
